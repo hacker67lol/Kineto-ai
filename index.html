@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ro" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KinetoAI - Premium Biomechanics Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#070708',
+            foreground: '#f4f4f5',
+            card: '#0f0f11',
+            'card-foreground': '#f4f4f5',
+            popover: '#141417',
+            'popover-foreground': '#f4f4f5',
+            primary: '#10b981',
+            'primary-foreground': '#042f1a',
+            secondary: '#18181b',
+            'secondary-foreground': '#f4f4f5',
+            muted: '#27272a',
+            'muted-foreground': '#a1a1aa',
+            accent: '#064e3b',
+            'accent-foreground': '#34d399',
+            border: '#27272a',
+            input: '#18181b',
+            ring: '#10b981',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #070708; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #10b981; }
+  </style>
+</head>
+<body class="bg-background text-foreground min-h-screen flex flex-col antialiased">
+
+  <header class="border-b border-border bg-card/70 backdrop-blur sticky top-0 z-40 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-3.5">
+      <div class="bg-accent/40 p-2.5 rounded-xl text-primary border border-primary/20 shadow-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0 1 15 0m-15 0a7.5 7.5 0 1 1 15 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.827m11.379-8.16l1.15-.827M8.14 21.27l.707-1.03m7.74-11.312l.707-1.03M12 3.75v1.5m0 13.5v1.5m-3.077-1.41l-.513 1.41m5.13-14.095l-.513 1.41M6.215 17.785l-.827 1.15m8.16-11.379l-.827 1.15M2.73 15.64l1.03-.707m11.312-7.74l1.03-.707" />
+        </svg>
+      </div>
+      <div class="text-center sm:text-left">
+        <h1 class="text-xl font-extrabold tracking-tight text-foreground flex items-center justify-center sm:justify-start gap-2">
+          Kineto<span class="text-primary">AI</span> <span class="text-[10px] bg-accent text-accent-foreground px-2 py-0.5 rounded-md border border-primary/30 font-medium tracking-wide uppercase">Engine v4.0</span>
+        </h1>
+        <p class="text-xs text-muted-foreground mt-0.5">Analiză clinică personalizată bazată pe pârghii biometrice și vectori articulari</p>
+      </div>
+    </div>
+    <div class="text-xs bg-secondary px-4 py-2 rounded-xl text-muted-foreground font-semibold border border-border shadow-sm">
+      Status Stabil • Corelație Matematică Fixă
+    </div>
+  </header>
+
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 p-4 lg:p-8 max-w-7xl mx-auto w-full">
+    
+    <div class="lg:col-span-5 flex flex-col gap-6">
+      <div class="bg-card border border-border rounded-2xl p-6 shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+        
+        <h2 class="text-base font-bold mb-5 text-foreground flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-primary">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+          Matrice Biometrică & Scop
+        </h2>
+
+        <div class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Vârstă (ani)</label>
+              <input type="number" id="userAge" value="28" min="10" max="100" class="w-full bg-input border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Gen Biologic</label>
+              <select id="userSex" class="w-full bg-input border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+                <option value="M">Masculin (Focus Forță Scapulară)</option>
+                <option value="F">Feminin (Focus Lanț Posterior / Unghi Q)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Greutate (kg)</label>
+              <input type="number" id="userWeight" value="75" min="30" max="200" class="w-full bg-input border border-border rounded-xl px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Volum Fix Exerciții</label>
+              <select id="exerciseCount" class="w-full bg-input border border-border rounded-xl px-3 py-2 text-sm text-foreground font-semibold text-primary focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+                <option value="3">Exact 3 Exerciții</option>
+                <option value="5" selected>Exact 5 Exerciții</option>
+                <option value="7">Exact 7 Exerciții</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Zonă Simptomatică (Dureri)</label>
+            <select id="userPain" class="w-full bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+              <option value="none">Fără dureri (Fiziologic normal / Performanță)</option>
+              <option value="genunchi">Articulație Genunchi (Patelară / Ligamentară)</option>
+              <option value="lombar">Regiune Lombară (Spate inferior / Sciatică)</option>
+              <option value="umeri">Complex Umeri (Rotatori / Impingement)</option>
+              <option value="cervical">Regiune Cervicală (Gât încordat / Postură de birou)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Obiectiv Principal Corectiv</label>
+            <select id="workoutGoal" class="w-full bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+              <option value="tonifiere">Tonifiere & Recondiționare (Volum moderat)</option>
+              <option value="recuperare">Kinetoterapie & Postură (Izometrie/Control)</option>
+              <option value="mobilitate">Mobilitate Activă (Stretching/Decompresie)</option>
+              <option value="forta">Forță Funcțională (Tempo lent/Hipertrofie)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">Grupă Musculară Vizată (Split)</label>
+            <select id="targetZone" class="w-full bg-input border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition">
+              <option value="fullbody">Corp Întreg (Full Body - Pool Complet)</option>
+              <option value="spate">Spate (Lanț Posterior & Core)</option>
+              <option value="picioare">Picioare (Membru Inferior)</option>
+              <option value="brate">Brațe (Membru Superior & Piept)</option>
+            </select>
+          </div>
+
+          <button id="btnGenerate" onclick="processWorkoutRules()" class="w-full bg-primary hover:bg-emerald-600 text-primary-foreground font-bold rounded-xl py-3.5 text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-primary/10 mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+            Generează Fișa de Lucru
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-card border border-border rounded-2xl p-6 shadow-xl flex-1 flex flex-col min-h-[220px]">
+        <h2 class="text-sm font-bold mb-4 text-foreground flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-primary">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+          </svg>
+          Sesiuni Stocate Local
+        </h2>
+        <div id="savedPlansContainer" class="flex-1 overflow-y-auto custom-scrollbar space-y-3 pr-1 max-h-[280px]">
+          <p class="text-xs text-muted-foreground italic text-center py-6">Nicio fișă stocată în memoria locală.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7 flex flex-col">
+      <div class="bg-card border border-border rounded-2xl p-6 shadow-xl flex-1 flex flex-col relative overflow-hidden min-h-[600px]">
+        
+        <div class="flex items-center justify-between pb-4 border-b border-border mb-5">
+          <div>
+            <h2 class="text-base font-bold text-foreground">Fișa de Antrenament Curentă</h2>
+            <p class="text-xs text-muted-foreground" id="outputSubtitle">Așteaptă configurarea parametrilor de intrare</p>
+          </div>
+          <button id="btnSave" onclick="saveCurrentPlan()" disabled class="bg-secondary hover:bg-muted text-foreground border border-border disabled:opacity-30 disabled:cursor-not-allowed font-semibold text-xs px-3.5 py-2.5 rounded-xl transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-primary">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+            </svg>
+            Stochează Fișa
+          </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 relative" id="workoutOutputContainer">
+          
+          <div id="placeholderState" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+            <div class="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-4 text-muted-foreground border border-border shadow-inner">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V18.25A2.25 2.25 0 0 0 10.5 20.5H12" />
+              </svg>
+            </div>
+            <h3 class="text-xs font-bold text-foreground mb-1 uppercase tracking-wider">Sistem pregătit pentru evaluare</h3>
+            <p class="text-xs text-muted-foreground max-w-xs leading-relaxed">Selectează split-ul muscular și zonele cu limitări. Motorul va izola mișcările interzise și va păstra pe ecran volumul exact cerut.</p>
+          </div>
+
+          <div id="loadingState" class="hidden absolute inset-0 bg-background/90 backdrop-blur-sm flex flex-col items-center justify-center text-center z-10">
+            <div class="animate-spin rounded-full h-8 w-8 border-2 border-muted border-t-primary mb-3"></div>
+            <p class="text-xs font-bold text-foreground tracking-wide uppercase">Se aplică filtrele de siguranță...</p>
+            <p class="text-[11px] text-muted-foreground mt-0.5">Recalculare seturi, repetări și vectori de gen</p>
+          </div>
+
+          <div id="planContentBody" class="text-sm text-muted-foreground space-y-4 hidden pb-6"></div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <div id="toast" class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 bg-card border border-border shadow-2xl rounded-2xl p-4 flex items-center gap-3 transition-all duration-300 z-50 max-w-sm">
+    <div id="toastIcon" class="w-5 h-5 flex-shrink-0 text-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <p id="toastMsg" class="text-xs font-bold text-foreground"></p>
+  </div>
+
+  <script>
+    // 1. POOL-UL DE DATE - BAZA DE DATE EXACTĂ ȘI COMPLETĂ RESPECTÂND TOATE CONSTRÂNGERILE USERULUI
+    const EXERCISE_DB = [
+      // SPATE
+      { name: "Bird-Dog", group: "spate", tags: ["recuperare", "mobilitate"], preferredSex: "F", dangerIf: [], recommendedFor: "lombar", desc: "Pe palme și genunchi, întindeți brațul opus piciorului. Mențineți linia fără a roti bazinul. Ideal pentru stabilitate pelviană/lombară." },
+      { name: "Plank RKC (Planșă Izometrică Controlată)", group: "spate", tags: ["forta", "recuperare"], preferredSex: "both", dangerIf: [], recommendedFor: "lombar", desc: "Poziție de planșă cu contracție maximală conștientă a abdomenului și fesierilor. Recomandat pentru aliniament neutru.", forceIsometric: "30 secunde (izometrie maximală)" },
+      { name: "Ramat Unilateral cu ganteră / greutate corporală (Single-Arm Row)", group: "spate", tags: ["forta", "tonifiere"], preferredSex: "M", dangerIf: ["umeri"], recommendedFor: "", desc: "Sprijinit pe un obiect stabil, trageți greutatea spre șold, menținând spatele fix. Excelent pentru stabilitate scapulară." },
+      { name: "Flotări Excentrice (faza de coborâre lentă)", group: "spate", tags: ["forta", "tonifiere"], preferredSex: "M", dangerIf: ["umeri", "cervical"], recommendedFor: "", desc: "Coboară corpul cât mai lent posibil spre sol (4 secunde), menținând trunchiul perfect rigid pentru rigiditate toracală." },
+      { name: "Superman (Extensii de trunchi de pe sol)", group: "spate", tags: ["tonifiere", "forta"], preferredSex: "both", dangerIf: ["lombar"], recommendedFor: "", desc: "Ridicarea ușoară și controlată a toracelui și a brațelor de pe sol din poziție culcat pe abdomen." },
+      { name: "Mersul Ursului (Bear Crawl)", group: "spate", tags: ["forta", "tonifiere"], preferredSex: "M", dangerIf: ["lombar", "umeri"], recommendedFor: "", desc: "Deplasare pe palme și pe vârfuri, cu genunchii la doar 5 cm de sol. Generează o forță excelentă pe vectori axiali." },
+      { name: "Mersul Fermierului (Farmer's Walk)", group: "spate", tags: ["forta", "tonifiere"], preferredSex: "M", dangerIf: ["lombar", "cervical"], recommendedFor: "", desc: "Mers controlat purtând două greutăți egale. Mențineți umerii retrași și coloana perfect rigidă." },
+      { name: "Depărtări în plan scapular (Scapular Y-T-W)", group: "spate", tags: ["recuperare", "mobilitate"], preferredSex: "both", dangerIf: ["cervical", "umeri"], recommendedFor: "", desc: "Ridicări de brațe libere imitând literele Y, T, W pentru activarea deltoidului posterior și a trapezului inferior fără a ridica umerii." },
+      { name: "Pisica-Cămila (Cat-Cow)", group: "spate", tags: ["mobilitate"], preferredSex: "both", dangerIf: [], recommendedFor: "", desc: "Mobilizare blândă și ritmică a întregii coloane vertebrale prin alternarea flexiei cu extensia controlată." },
+      
+      // PICIOARE
+      { name: "Clamshells (Scoica)", group: "picioare", tags: ["recuperare", "mobilitate"], preferredSex: "F", dangerIf: [], recommendedFor: "", desc: "Culcat pe o parte, genunchii flexați, deschideți genunchiul superior. Esențial pentru activare fesier mediu și stabilitate pelviană (unghi Q)." },
+      { name: "Glute Bridge (Podul de fesieri)", group: "picioare", tags: ["tonifiere", "recuperare"], preferredSex: "F", dangerIf: [], recommendedFor: "genunchi", desc: "Culcat pe spate, împingeți în călcâie pentru a ridica bazinul. Excelent pentru activarea lanțului posterior, foarte recomandat pentru genunchi." },
+      { name: "Wall Sit (Menținere izometrică la perete)", group: "picioare", tags: ["recuperare", "forta"], preferredSex: "both", dangerIf: [], recommendedFor: "genunchi", desc: "Menținere izometrică cu spatele la perete. Ideal pentru stabilitatea patelară fără forfecare dinamică.", forceIsometric: "20 secunde (ajustat izometric)" },
+      { name: "Ridicări pe vârfuri (Calf Raises)", group: "picioare", tags: ["tonifiere", "recuperare"], preferredSex: "both", dangerIf: [], recommendedFor: "", desc: "Ridicări controlate pe vârfuri din picioare pentru condiționarea și stabilitatea gleznelor." },
+      { name: "Genoflexiuni Libere Adânci (Air Squats)", group: "picioare", tags: ["forta", "tonifiere"], preferredSex: "both", dangerIf: ["genunchi"], recommendedFor: "", desc: "Genoflexiune completă cu greutatea corpului, coborâre controlată păstrând presiunea pe toată talpa." },
+      { name: "Genoflexiuni Bulgărești (Bulgarian Split Squat)", group: "picioare", tags: ["forta", "tonifiere"], preferredSex: "F", dangerIf: ["genunchi"], recommendedFor: "", desc: "Un picior sprijinit în spate pe suport, coborâre cu trunchiul ușor înclinat pentru un focus accentuat pe lanțul posterior." },
+      { name: "Fandări înapoi (Reverse Lunges)", group: "picioare", tags: ["tonifiere", "forta"], preferredSex: "both", dangerIf: ["genunchi"], recommendedFor: "", desc: "Pășire în spate controlată. Unghiul tibial rămâne vertical, reducând stresul articular anterior." },
+      { name: "Stretching pasiv/activ pentru Ischiogambieri", group: "picioare", tags: ["mobilitate"], preferredSex: "both", dangerIf: [], recommendedFor: "", desc: "Întindere controlată a musculaturii posterioare a coapsei pentru reducerea tensiunii din bazin." },
+      
+      // BRAȚE
+      { name: "Flotări Diamant (Diamond Push-ups)", group: "brate", tags: ["forta", "tonifiere"], preferredSex: "M", dangerIf: ["umeri"], recommendedFor: "", desc: "Flotări cu palmele apropiate sub piept formând un romb. Dezvoltă o forță mare pe vectorul de împins și pe triceps." },
+      { name: "Face-Pulls (cu bandă elastică)", group: "brate", tags: ["recuperare", "tonifiere"], preferredSex: "M", dangerIf: ["umeri", "cervical"], recommendedFor: "", desc: "Tragerea benzii elastice spre nivelul ochilor, depărtând coatele spre exterior pentru stabilitate scapulară optimă." },
+      { name: "Extensii Triceps deasupra capului (Overhead Triceps Extension)", group: "brate", tags: ["tonifiere"], preferredSex: "both", dangerIf: ["umeri"], recommendedFor: "", desc: "Extensia verticală a brațelor deasupra capului folosind o bandă sau o greutate ușoară, izolând tricepsul." },
+      { name: "Extensii în W (W-Extensions pentru spate/umeri)", group: "brate", tags: ["recuperare", "mobilitate"], preferredSex: "both", dangerIf: ["cervical"], recommendedFor: "", desc: "Din culcat sau aplecat, brațele formează litera W; se strâng omoplații fără a tensiona zona cervicală." },
+      { name: "Flexii Biceps controlate (Bicep Curls)", group: "brate", tags: ["tonifiere", "forta"], preferredSex: "both", dangerIf: [], recommendedFor: "", desc: "Flexia coatelor cu menținerea umerilor stabili și a spatelui nemișcat pentru izolarea corectă a bicepsului." },
+      { name: "Rotiri externe de umăr cu bandă (Cuff Rotation)", group: "brate", tags: ["recuperare", "mobilitate"], preferredSex: "both", dangerIf: [], recommendedFor: "", desc: "Rotație externă controlată la 90 de grade pentru coafa rotatorilor, executată în siguranță, fără abducție forțată." }
+    ];
+
+    let currentGeneratedPlan = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderSavedPlansList();
+    });
+
+    // 2 & 3. MOTORUL DE FILTRARE, PRIORITIZARE ȘI PRESCRIPȚIE BIOMETRICĂ
+    function processWorkoutRules() {
+      document.getElementById("placeholderState").classList.add("hidden");
+      document.getElementById("planContentBody").classList.add("hidden");
+      document.getElementById("loadingState").classList.remove("hidden");
+      document.getElementById("btnSave").disabled = true;
+
+      // Preluare inputuri brute
+      const age = parseInt(document.getElementById("userAge").value, 10) || 28;
+      const sex = document.getElementById("userSex").value;
+      const weight = parseInt(document.getElementById("userWeight").value, 10) || 75;
+      const count = parseInt(document.getElementById("exerciseCount").value, 10);
+      const painZone = document.getElementById("userPain").value;
+      const goal = document.getElementById("workoutGoal").value;
+      const zone = document.getElementById("targetZone").value;
+
+      setTimeout(() => {
+        // PASUL 1: Filtrarea inițială în funcție de grupa selectată (Split)
+        let initialPool = [];
+        if (zone === "fullbody") {
+          initialPool = [...EXERCISE_DB];
+        } else {
+          initialPool = EXERCISE_DB.filter(ex => ex.group === zone);
+        }
+
+        // PASUL 2: Filtru de Siguranță STRICT (Banned dacâ se regăsește în matricea de dureri a exercițiului)
+        let safePool = initialPool.filter(ex => !ex.dangerIf.includes(painZone));
+
+        // PASUL 3: Algoritmul de Prioritizare Inteligentă (Scoring System pentru a corela perfect cazurile)
+        safePool.sort((a, b) => {
+          let scoreA = 0;
+          let scoreB = 0;
+
+          // Etichetă obiectiv (Perfect Match) -> Prioritate maximă (+100)
+          if (a.tags.includes(goal)) scoreA += 100;
+          if (b.tags.includes(goal)) scoreB += 100;
+
+          // Recomandat specific pentru tipul de durere selectat (+50)
+          if (a.recommendedFor === painZone) scoreA += 50;
+          if (b.recommendedFor === painZone) scoreB += 50;
+
+          // Potrivire specifică pe Gen Biologic (+30 pentru sex exact, +15 pentru universal "both")
+          if (a.preferredSex === sex) scoreA += 30;
+          if (b.preferredSex === sex) scoreB += 30;
+          
+          if (a.preferredSex === "both") scoreA += 15;
+          if (b.preferredSex === "both") scoreB += 15;
+
+          return scoreB - scoreA; // Sortare descrescătoare după scorul biomecanic
+        });
+
+        // Eliminăm duplicate de siguranță (dacă există)
+        let uniqueMap = new Map();
+        safePool.forEach(item => uniqueMap.set(item.name, item));
+        let finalizedPool = Array.from(uniqueMap.values());
+
+        // !!! CONSTRÂNGERE RADICALĂ SOLICITATĂ: Taiere exactă folosind funcția solicitată .slice(0, count)
+        let selectedExercises = finalizedPool.slice(0, count);
+
+        // Fallback de siguranță absolută: în cazul în care excluderile lasă un pool mai mic decât numărul cerut, completăm din pool-ul global sigur
+        if (selectedExercises.length < count) {
+          let backupPool = EXERCISE_DB.filter(ex => !ex.dangerIf.includes(painZone) && !selectedExercises.some(s => s.name === ex.name));
+          let needed = count - selectedExercises.length;
+          selectedExercises = selectedExercises.concat(backupPool.slice(0, needed));
+        }
+
+        // CONSTRUIREA FIȘEI FINALE ȘI APLICAREA PRESCRIPIȚIEI (Pasul A & Pasul B)
+        let md = `# Fișă de Antrenament - KinetoAI\n`;
+        md += `**Configurație:** ${sex === 'M' ? 'Masculin' : 'Feminin'} | ${age} ani | ${weight} kg\n`;
+        md += `**Simptomatologie:** ${painZone === 'none' ? '✅ Fiziologic Normal' : '⚠️ Limitare activă: ' + getPainName(painZone)}\n`;
+        md += `**Obiectiv:** ${getGoalName(goal)} | **Volum impus:** Exact ${selectedExercises.length} exerciții\n\n`;
+
+        if (sex === "F") {
+          md += `> **🧬 Focus Corecție Pelviană (Unghi Q):** Algoritmul a structurat exercițiile pentru a securiza aliniamentul genunchi-șold și pentru a activa musculatura stabilizatoare a lanțului posterior.\n\n`;
+        } else {
+          md += `> **🧬 Focus Rigiditate Axială:** Programul prioritizează echilibrul scapular, controlul fazei excentrice și forța pe vectori de împins/tras.\n\n`;
+        }
+
+        md += `## 🦾 Structură Rutină Personalizată\n`;
+
+        selectedExercises.forEach((ex, idx) => {
+          // Pasul A: Prescripția de bază după obiectiv
+          let sets = 3;
+          let repsOrDuration = "";
+          let tempoNote = "";
+
+          if (goal === "tonifiere") {
+            repsOrDuration = "12 repetări";
+            tempoNote = "Execuție fluidă, tempo moderat";
+          } else if (goal === "recuperare") {
+            repsOrDuration = "10 repetări";
+            tempoNote = "Izometrie controlată, atenție la postură";
+          } else if (goal === "mobilitate") {
+            repsOrDuration = "45 secunde";
+            tempoNote = "Menținere activă, decompresie";
+          } else if (goal === "forta") {
+            repsOrDuration = "8 repetări";
+            tempoNote = "Control muscular, accent pe tempo lent";
+          }
+
+          // Override pentru exercițiile izometrice specifice din cerințe
+          if (ex.forceIsometric) {
+            repsOrDuration = ex.forceIsometric;
+          }
+
+          // Pasul B: Corecția Biometrică Dinamică
+          let biometricNotes = [];
+          if (age > 60) {
+            sets = 2; // Scade automat numărul de serii de la 3 la 2
+            biometricNotes.push("Ajustare Inteligentă: Protecție și amortizare articulară.");
+          }
+          if (weight > 95) {
+            // Scade repetările cu 2 pentru a reduce uzura articulară (dacă nu e mobilitate bazată pe timp)
+            if (goal === "tonifiere") repsOrDuration = "10 repetări";
+            if (goal === "recuperare") repsOrDuration = "8 repetări";
+            if (goal === "forta") repsOrDuration = "6 repetări";
+            biometricNotes.push("Control excentric crescut pentru prevenirea impactului dur pe articulațiile portante.");
+          }
+
+          // Adăugare note specifice din scenariile userului
+          if (ex.name.includes("Plank RKC")) tempoNote = "Accent pe rigiditate toracală și aliniament neutru.";
+          if (ex.name.includes("Ramat Unilateral")) tempoNote = "Menține coloana fixă, mișcarea se face exclusiv din scapulă și cot.";
+          if (ex.name.includes("Bird-Dog") && painZone === "lombar") tempoNote = "Asigură stabilizarea neutră a zonei lombare.";
+          if (ex.name.includes("Wall Sit")) tempoNote = "Menținere controlată pentru stabilitatea patelară fără forfecare.";
+
+          md += `### EX_START ${idx + 1}. ${ex.name}\n`;
+          md += `- **Volum Prescris:** **${sets} serii x ${repsOrDuration}**\n`;
+          md += `- **Indicație Metodică:** ${tempoNote ? tempoNote : ex.desc}\n`;
+          if (biometricNotes.length > 0) {
+            biometricNotes.forEach(note => {
+              md += `- **Notă Corecție:** *${note}*\n`;
+            });
+          }
+          md += `EX_END\n\n`;
+        });
+
+        // Afișare interfață procesată
+        const container = document.getElementById("planContentBody");
+        container.innerHTML = mdToHtml(md);
+        
+        document.getElementById("loadingState").classList.add("hidden");
+        container.classList.remove("hidden");
+        document.getElementById("outputSubtitle").textContent = `Plan compilat cu succes (${selectedExercises.length} poziții sigure)`;
+        document.getElementById("btnSave").disabled = false;
+
+        // Reținem starea curentă pentru salvare în localStorage
+        currentGeneratedPlan = {
+          title: `Rutină ${getGoalName(goal)} (${getPainName(painZone)})`,
+          meta: `${selectedExercises.length} Exerciții | ${sex === 'M' ? 'Masculin' : 'Feminin'}`,
+          plan: md
+        };
+
+        showToast("⚡ Filtrare și corelare executate perfect!");
+      }, 600);
+    }
+
+    // PERSISTENȚĂ ȘI MANAGEMENT LOCALSTORAGE
+    function saveCurrentPlan() {
+      if (!currentGeneratedPlan) return;
+      const saved = JSON.parse(localStorage.getItem('kinetoai_v4_plans') || '[]');
+      const entry = {
+        id: 'k_plan_' + Date.now(),
+        date: new Date().toLocaleDateString('ro-RO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+        title: currentGeneratedPlan.title,
+        meta: currentGeneratedPlan.meta,
+        plan: currentGeneratedPlan.plan
+      };
+      saved.unshift(entry);
+      localStorage.setItem('kinetoai_v4_plans', JSON.stringify(saved));
+      showToast("💾 Fișa a fost stocată local!");
+      renderSavedPlansList();
+    }
+
+    function renderSavedPlansList() {
+      const container = document.getElementById("savedPlansContainer");
+      const saved = JSON.parse(localStorage.getItem('kinetoai_v4_plans') || '[]');
+
+      if (saved.length === 0) {
+        container.innerHTML = `<p class="text-xs text-muted-foreground italic text-center py-6">Nicio fișă stocată în memoria locală.</p>`;
+        return;
+      }
+
+      let html = '<div class="space-y-2.5">';
+      saved.forEach(p => {
+        html += `
+          <div class="bg-secondary/50 border border-border rounded-xl p-3 flex flex-col gap-2 hover:border-primary/40 transition group">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="text-xs font-bold text-foreground line-clamp-1">${p.title}</div>
+                <div class="text-[10px] text-muted-foreground mt-0.5 flex items-center gap-1.5">
+                  <span>📅 ${p.date}</span>
+                  <span>•</span>
+                  <span class="text-primary font-medium">${p.meta}</span>
+                </div>
+              </div>
+              <button onclick="deletePlan('${p.id}')" class="text-muted-foreground hover:text-red-400 p-1 rounded transition opacity-60 group-hover:opacity-100">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <button onclick="loadSavedPlan('${p.id}')" class="w-full text-center bg-muted hover:bg-accent hover:text-accent-foreground text-[10px] font-bold py-2 rounded-lg border border-border transition uppercase tracking-wider">
+              Afișează pe ecran
+            </button>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    function deletePlan(id) {
+      let saved = JSON.parse(localStorage.getItem('kinetoai_v4_plans') || '[]');
+      saved = saved.filter(p => p.id !== id);
+      localStorage.setItem('kinetoai_v4_plans', JSON.stringify(saved));
+      showToast("❌ Sesiune ștearsă.");
+      renderSavedPlansList();
+    }
+
+    function loadSavedPlan(id) {
+      const saved = JSON.parse(localStorage.getItem('kinetoai_v4_plans') || '[]');
+      const found = saved.find(p => p.id === id);
+      if (!found) return;
+
+      document.getElementById("placeholderState").classList.add("hidden");
+      document.getElementById("loadingState").classList.add("hidden");
+      
+      const container = document.getElementById("planContentBody");
+      container.innerHTML = mdToHtml(found.plan);
+      container.classList.remove("hidden");
+      
+      document.getElementById("outputSubtitle").textContent = `Restaurat din istoric (${found.date})`;
+      document.getElementById("btnSave").disabled = true;
+      showToast("📋 Date restaurate pe ecran!");
+    }
+
+    // INTERPRETATOR PREMIUM DE MARKDOWN ÎN INTERFAȚĂ INTERACTIVĂ (Card-based UI)
+    function mdToHtml(md) {
+      if (!md) return '';
+      let html = md;
+      
+      html = html.replace(/^## (.*$)/gim, '<h3 class="text-sm font-bold text-foreground tracking-wider uppercase mt-6 mb-3 border-b border-muted pb-1.5 flex items-center gap-2">$1</h3>');
+      html = html.replace(/^# (.*$)/gim, '<h2 class="text-base font-extrabold text-foreground tracking-tight mb-3">$1</h2>');
+      html = html.replace(/^\>\s*(.*$)/gim, '<blockquote class="border-l-2 border-primary bg-accent/10 p-3.5 rounded-r-xl italic my-3 text-xs text-accent-foreground leading-relaxed">$1</blockquote>');
+      
+      // Transformare blocuri structurate EX_START -> EX_END în Carduri UI Individuale
+      html = html.replace(/EX_START (.*?)\. (.*$)/gim, '<div class="bg-secondary/40 border border-border/80 rounded-xl p-4 my-3 hover:border-primary/30 transition shadow-sm"><div class="flex items-center justify-between mb-2"><span class="text-[10px] font-bold uppercase tracking-widest text-primary bg-accent/20 px-2 py-0.5 rounded border border-primary/10">Poziția $1</span></div><h4 class="text-sm font-bold text-foreground mb-3">$2</h4><div class="space-y-2 text-xs text-muted-foreground">');
+      html = html.replace(/EX_END/gim, '</div></div>');
+      
+      // Randare linii interioare liste din card
+      html = html.replace(/^\s*-\s*\*\*Volum Prescris:\*\*\s*(.*$)/gim, '<div class="flex items-center gap-2 font-medium"><span class="bg-muted text-foreground px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase border border-border">Volum</span> <span class="text-foreground font-semibold text-emerald-400">$1</span></div>');
+      html = html.replace(/^\s*-\s*\*\*Indicație Metodică:\*\*\s*(.*$)/gim, '<div class="text-muted-foreground leading-relaxed pl-0.5"><span class="text-foreground/70 font-bold">Instrucțiuni:</span> $1</div>');
+      html = html.replace(/^\s*-\s*\*\*Notă Corecție:\*\*\s*(.*$)/gim, '<div class="text-amber-400/90 font-medium italic bg-amber-500/5 p-2 rounded-lg border border-amber-500/10 flex items-center gap-1.5 mt-1">🧬 <span>$1</span></div>');
+      
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="text-foreground font-bold">$1</strong>');
+      html = html.replace(/\n/g, '<br>');
+      return html;
+    }
+
+    function getGoalName(val) {
+      return { tonifiere: "Tonifiere", recuperare: "Kinetoterapie & Postură", mobilitate: "Mobilitate Activă", forta: "Forță Funcțională" }[val] || val;
+    }
+    function getPainName(val) {
+      return { none: "Fără limitări", genunchi: "Genunchi", lombar: "Lombar", umeri: "Umeri", cervical: "Cervical" }[val] || val;
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      t.className = "fixed bottom-6 right-6 bg-card border border-primary/30 shadow-2xl rounded-2xl p-4 flex items-center gap-3 transition-all duration-300 z-50 max-w-sm transform translate-y-0 opacity-100";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        t.className = "fixed bottom-6 right-6 transform translate-y-20 opacity-0 bg-card border border-border shadow-2xl rounded-2xl p-4 flex items-center gap-3 transition-all duration-300 z-50 max-w-sm";
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
